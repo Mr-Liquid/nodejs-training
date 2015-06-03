@@ -16,9 +16,9 @@ function requestHandler(req,res) {
            newCustomModule.save(parseQuery.filename);
        }else if(parseQuery.method === 'delete'){
            newCustomModule.delete(parseQuery.filename);
-       }else if(parseQuery.method === 'index'){
-           newCustomModule.index();
        }
+    } else if(parseUrlObj.pathname === '/'){
+        newCustomModule.index();
     }
     res.end('Run server');
 }
