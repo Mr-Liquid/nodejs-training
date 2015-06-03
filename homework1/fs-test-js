@@ -1,0 +1,36 @@
+"use strict";
+
+var fs = require('fs'),
+    fileName = process.argv[2],
+    method = process.argv[3],
+    spawn = require('child_process').spawn;
+
+fs.watch(fileName,function(){
+    var dir = spawn('cmd', ['/S','/C','dir', fileName]);
+    dir.stdout.pipe(process.stdout);
+    if(method === 'copy'){
+        fs.createReadStream('test.txt').pipe(fs.createWriteStream('newTest.txt'));
+    }else if(method === 'del'){
+        fs.unlink('test.txt', function(){
+            fs.unwatchFile('test.txt');
+        });
+    }
+});
+
+//var server = http.createServer(function(req, res){
+//    var urlParse = url.parse(req.url);
+//    var custommodule = new customModule();
+//    if(urlParse.pathname === '/action'){
+//        var parseQueryObject = queryString.parse(urlParse.query);
+//        if(parseQueryObject.method === 'copy'){
+//
+//            custommodule.save();
+//        }else if(parseQueryObject.method === 'delete'){
+//            custommodule.delete();
+//        }
+//    }
+//    res.writeHead(200, {'Content-Type': 'text/plain'});
+//    res.end('okay');
+//
+//});
+//server.listen(3000);
